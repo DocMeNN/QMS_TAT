@@ -1,47 +1,55 @@
-"""TAT domain value objects and rules."""
+"""Laboratory turnaround-time measurement domain model."""
 
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from enum import StrEnum
+from enum import Enum
 
 
-class TATStatus(StrEnum):
-    """Operational status of a TAT measurement."""
+class TATStatus(Enum):
+    """Classification of laboratory turnaround time."""
 
-    WITHIN_TARGET = "WITHIN_TARGET"
-    AT_RISK = "AT_RISK"
-    BREACHED = "BREACHED"
-    NOT_MEASURABLE = "NOT_MEASURABLE"
-
-
-@dataclass(frozen=True)
-class WorkflowEvent:
-    """A timestamped laboratory workflow event."""
-
-    event_type: str
-    occurred_at: datetime
+    WITHIN_TARGET = "within_target"
+    AT_RISK = "at_risk"
+    BREACHED = "breached"
+    NOT_MEASURABLE = "not_measurable"
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class TATMeasurement:
-    """Calculated turnaround time."""
+    """Measure laboratory turnaround time."""
 
     start: datetime
     end: datetime
     target: timedelta
 
     @property
-    def elapsed(self) -> timedelta:
-        """Return elapsed turnaround time."""
+    def duration(self) -> timedelta:
+        """Return the elapsed turnaround time."""
+
         return self.end - self.start
 
     @property
+    def elapsed(self) -> timedelta:
+        """Return the elapsed turnaround time."""
+        return self.end - self.start
+
+    @property
+    def duration_minutes(self) -> int:
+        """Return elapsed turnaround time in whole minutes."""
+
+        return int(self.duration.total_seconds() // 60)
+
+    @property
     def status(self) -> TATStatus:
-        """Determine TAT status against the target."""
-        if self.end < self.start:
+        """Return the TAT classification."""
+
+        if self.duration.total_seconds() < 0:
             return TATStatus.NOT_MEASURABLE
 
-        if self.elapsed > self.target:
+        if self.duration > self.target:
             return TATStatus.BREACHED
+
+        if self.duration >= self.target * 0.75:
+            return TATStatus.AT_RISK
 
         return TATStatus.WITHIN_TARGET

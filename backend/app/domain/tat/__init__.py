@@ -1,0 +1,1 @@
+"""Laboratory Turnaround Time domain."""

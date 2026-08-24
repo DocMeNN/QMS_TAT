@@ -1,9 +1,8 @@
 """Health API integration tests."""
 
+from app.interface.api.health import router
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-
-from app.interface.api.health import router
 
 
 def test_health_endpoint() -> None:

@@ -3,9 +3,8 @@
 from datetime import datetime, timezone
 from uuid import uuid4
 
-from fastapi.testclient import TestClient
-
 from app.interface.api.application import app
+from fastapi.testclient import TestClient
 
 client = TestClient(app)
 

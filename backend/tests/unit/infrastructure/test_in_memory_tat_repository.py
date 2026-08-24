@@ -5,8 +5,9 @@ from uuid import uuid4
 
 from app.application.dto.tat_result import TATCalculationResult
 from app.domain.tat.measurement import TATStatus
-from app.infrastructure.persistence.in_memory_tat_repository import \
-    InMemoryTATRepository
+from app.infrastructure.persistence.in_memory_tat_repository import (
+    InMemoryTATRepository,
+)
 
 
 def make_result() -> TATCalculationResult:

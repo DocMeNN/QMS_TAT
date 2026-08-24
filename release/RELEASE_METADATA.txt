@@ -1,0 +1,5 @@
+﻿ALIP v1.0 - QMS_TAT
+Release: 1.0.0
+Status: Release Candidate
+Application: QMS Turnaround Time Management
+Python: 3.14+

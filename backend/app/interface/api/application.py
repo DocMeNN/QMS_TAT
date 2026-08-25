@@ -1,9 +1,8 @@
 """FastAPI application boundary."""
 
-from fastapi import FastAPI
-
 from app.interface.api.tat import calculate_tat
 from app.interface.schemas.tat import CalculateTATRequest, CalculateTATResponse
+from fastapi import FastAPI
 
 app = FastAPI(
     title="ALIP QMS TAT API",

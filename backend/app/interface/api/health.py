@@ -1,8 +1,7 @@
 """Health API endpoint."""
 
-from fastapi import APIRouter
-
 from app.observability.service import ObservabilityService
+from fastapi import APIRouter
 
 router = APIRouter(tags=["health"])
 

@@ -5,9 +5,8 @@ from uuid import uuid4
 
 from app.application.commands.calculate_tat import CalculateTATCommand
 from app.application.services.record_tat import RecordTATService
-from app.infrastructure.persistence.in_memory_tat_repository import (
-    InMemoryTATRepository,
-)
+from app.infrastructure.persistence.in_memory_tat_repository import \
+    InMemoryTATRepository
 
 
 def make_command() -> CalculateTATCommand:

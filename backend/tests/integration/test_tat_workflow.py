@@ -6,9 +6,8 @@ from uuid import uuid4
 from app.application.commands.calculate_tat import CalculateTATCommand
 from app.application.services.record_tat import RecordTATService
 from app.domain.tat.measurement import TATStatus
-from app.infrastructure.persistence.in_memory_tat_repository import (
-    InMemoryTATRepository,
-)
+from app.infrastructure.persistence.in_memory_tat_repository import \
+    InMemoryTATRepository
 
 
 def test_complete_tat_workflow() -> None:

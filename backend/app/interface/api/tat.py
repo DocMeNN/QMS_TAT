@@ -1,3 +1,5 @@
+from fastapi import APIRouter
+
 """TAT API boundary."""
 
 from app.application.commands.calculate_tat import CalculateTATCommand
@@ -28,3 +30,6 @@ def calculate_tat(
         target_minutes=result.target_minutes,
         status=result.status.value,
     )
+
+
+router = APIRouter()

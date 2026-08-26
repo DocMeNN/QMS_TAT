@@ -1,32 +1,28 @@
-"""Application service for TAT calculation."""
-
-from datetime import timedelta
-
 from app.application.commands.calculate_tat import CalculateTATCommand
 from app.application.dto.tat_result import TATCalculationResult
-from app.domain.tat.measurement import TATMeasurement
+from app.application.ports.tat_calculator import TATCalculator
+from app.infrastructure.adapters.tat_calculator import TATCalculatorAdapter
 
 
 class CalculateTATService:
-    """Coordinate TAT calculation without infrastructure dependencies."""
+    """Application service for TAT calculation."""
 
-    def execute(
-        self,
-        command: CalculateTATCommand,
-    ) -> TATCalculationResult:
-        """Execute a TAT calculation command."""
+    def __init__(self, calculator: TATCalculator | None = None) -> None:
+        self._calculator = calculator or TATCalculatorAdapter()
 
-        measurement = TATMeasurement(
-            start=command.started_at,
-            end=command.completed_at,
-            target=timedelta(minutes=command.target_minutes),
+    def execute(self, command: CalculateTATCommand) -> TATCalculationResult:
+        """Calculate TAT from an application command."""
+        return self._calculator.calculate(
+            command.request_id,
+            command.started_at,
+            command.completed_at,
+            command.target_minutes,
         )
 
-        return TATCalculationResult(
-            request_id=command.request_id,
-            started_at=command.started_at,
-            completed_at=command.completed_at,
-            duration_minutes=measurement.duration_minutes,
-            target_minutes=command.target_minutes,
-            status=measurement.status,
-        )
+
+def calculate_tat(
+    command: CalculateTATCommand,
+    calculator: TATCalculator,
+) -> TATCalculationResult:
+    """Calculate TAT using the application service."""
+    return CalculateTATService(calculator).execute(command)

@@ -1,3 +1,4 @@
+from app.infrastructure.adapters.tat_calculator import TATCalculatorAdapter
 from fastapi import APIRouter
 
 """TAT API boundary."""
@@ -20,7 +21,9 @@ def calculate_tat(
         target_minutes=request.target_minutes,
     )
 
-    result: TATCalculationResult = CalculateTATService().execute(command)
+    result: TATCalculationResult = CalculateTATService(TATCalculatorAdapter()).execute(
+        command
+    )
 
     return CalculateTATResponse(
         request_id=result.request_id,

@@ -25,3 +25,11 @@ class RecordTATService:
         result = service.execute(command)
         self._repository.save(result)
         return result
+
+
+def record_tat(
+    repository: TATRepository,
+    command: CalculateTATCommand,
+) -> TATCalculationResult:
+    """Calculate and persist a TAT result."""
+    return RecordTATService(repository).execute(command)

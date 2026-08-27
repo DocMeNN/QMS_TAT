@@ -1,32 +1,27 @@
-"""Laboratory turnaround-time measurement domain model."""
-
-from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
+from uuid import UUID
 
 
 class TATStatus(Enum):
-    """Classification of laboratory turnaround time."""
-
     WITHIN_TARGET = "within_target"
     AT_RISK = "at_risk"
     BREACHED = "breached"
     NOT_MEASURABLE = "not_measurable"
 
 
-@dataclass(frozen=True, slots=True)
 class TATMeasurement:
-    """Measure laboratory turnaround time."""
-
-    start: datetime
-    end: datetime
-    target: timedelta
-
-    @property
-    def duration(self) -> timedelta:
-        """Return the elapsed turnaround time."""
-
-        return self.end - self.start
+    def __init__(
+        self,
+        start: datetime,
+        end: datetime,
+        target: timedelta,
+        request_id: UUID | None = None,
+    ) -> None:
+        self.request_id = request_id
+        self.start = start
+        self.end = end
+        self.target = target
 
     @property
     def elapsed(self) -> timedelta:
@@ -34,15 +29,18 @@ class TATMeasurement:
         return self.end - self.start
 
     @property
+    def duration(self) -> timedelta:
+        """Return the elapsed turnaround time."""
+        return self.elapsed
+
+    @property
     def duration_minutes(self) -> int:
         """Return elapsed turnaround time in whole minutes."""
-
         return int(self.duration.total_seconds() // 60)
 
     @property
     def status(self) -> TATStatus:
         """Return the TAT classification."""
-
         if self.duration.total_seconds() < 0:
             return TATStatus.NOT_MEASURABLE
 

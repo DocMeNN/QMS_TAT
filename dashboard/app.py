@@ -1,4 +1,5 @@
 ﻿import streamlit as st
+from uuid import uuid4
 import requests
 
 st.set_page_config(
@@ -60,6 +61,7 @@ with col2:
             response = requests.post(
                 f"{api_url}/tat/calculate",
                 json={
+                    "request_id": str(uuid4()),
                     "started_at": started_at,
                     "completed_at": completed_at,
                     "target_minutes": target_minutes,
@@ -83,3 +85,4 @@ st.divider()
 st.caption(
     "ALIP v1.0 | QMS_TAT | TAT Management Foundation"
 )
+

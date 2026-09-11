@@ -1,0 +1,13 @@
+﻿# ALIP v2.0 — Initial Status
+
+Release: ALIP v2.0
+Focus: Intelligent TAT & Laboratory Operations
+
+v1.0 baseline:
+RELEASED / FROZEN
+
+BUILD-20A:
+ARCHITECTURE FOUNDATION ESTABLISHED
+
+Next:
+BUILD-20B — LABORATORY OPERATIONS DOMAIN FOUNDATION
